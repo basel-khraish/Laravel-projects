@@ -36,25 +36,23 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-        // validation
-
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required |unique:teachers,email', //علشان يكون الايميل لا يتكرر
-            'phone' => 'required',
+    // validation
+        $request-> validate([
+            'name'=>'required',
+            'email'=>'required|unique:teachers,email',
+            'phone'=>'required|max:20',
         ]);
 
-        // upload file
+    // upload file
 
-        // store data
-
+    // store data
         Teacher::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone
-
+            'name'=>$request->name,
+            'email'=>$request->email,
+            'phone'=>$request->phone,
         ]);
-
+    // return message
+        return redirect()->route('teachers.index')->with('msg','Teacher added successfull');
     }
 
     /**

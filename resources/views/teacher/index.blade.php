@@ -21,6 +21,9 @@
             <h1>All Teachers</h1>
             <a href="{{ route('teachers.create') }}" class="btn btn-success">Add Teacher</a>
         </div>
+        @if (session('msg'))
+            <div class="alert alert-success">{{ session('msg') }}</div>
+        @endif
         <table class="table table-bordered table-striped">
             <tr class="table-dark">
                 <th>ID</th>

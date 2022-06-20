@@ -21,9 +21,7 @@
             <h1>Add New Teachers</h1>
             <a onclick="history.back()" class="btn btn-outline-dark">Return Back</a>
         </div>
-        @if(session('msg'))
-            <div class="alert alert-success">{{ session('msg') }}</div>
-        @endif
+
         <form action="{{ route('teachers.store') }}" method="POST">
             @csrf
             <div class="mb-3">
