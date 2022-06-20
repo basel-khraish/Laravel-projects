@@ -42,7 +42,7 @@
                 @enderror
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3">  
                 <label class="form-label">Phone</label>
                 <input type="text" name="phone" class="form-control @error('phone') is-invalid @enderror"
                     value="{{ old('phone') }}" placeholder="Phone">

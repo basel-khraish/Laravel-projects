@@ -15,7 +15,10 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        return view('teacher.index');
+        $teachers = Teacher::paginate(10);
+        // $teachers = Teacher::all();
+
+        return view('teacher.index',compact('teachers'));
     }
 
     /**
@@ -40,19 +43,22 @@ class TeacherController extends Controller
         $request-> validate([
             'name'=>'required',
             'email'=>'required|unique:teachers,email',
-            'phone'=>'required|max:20',
+            'phone'=>'required|max:13',
         ]);
 
     // upload file
 
     // store data
         Teacher::create([
+            // [اسم العمود في قواعد البيانات]=>[ index اسم الحقل في ]
+
             'name'=>$request->name,
             'email'=>$request->email,
             'phone'=>$request->phone,
         ]);
+        
     // return message
-        return redirect()->route('teachers.index')->with('msg','Teacher added successfull');
+        return redirect()->route('teachers.index')->with('msg','Teacher added successfull')->with('type','success');
     }
 
     /**

@@ -21,9 +21,11 @@
             <h1>All Teachers</h1>
             <a href="{{ route('teachers.create') }}" class="btn btn-success">Add Teacher</a>
         </div>
+
         @if (session('msg'))
-            <div class="alert alert-success">{{ session('msg') }}</div>
+            <div class="alert alert-{{ session('type') }}">{{ session('msg') }}</div>
         @endif
+
         <table class="table table-bordered table-striped">
             <tr class="table-dark">
                 <th>ID</th>
@@ -34,22 +36,52 @@
                 <th>Updated at</th>
                 <th>Actions</th>
             </tr>
-            <tr>
-                <td>1</td>
-                <td>Basel</td>
-                <td>B@gmail.com</td>
-                <td>0597814587</td>
-                <td>20/8/2021</td>
-                <td>20/8/2019</td>
-                <td>
-                    <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                    <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                </td>
-            </tr>
+            @foreach ($teachers as $teacher)
+                <tr>
+                    <td>{{ $teacher->id }}</td>
+                    <td>{{ $teacher->name }}</td>
+                    <td>{{ $teacher->email }}</td>
+                    <td>{{ $teacher->phone }}</td>
+                    <td>{{ $teacher->created_at->format('d M,Y') }}</td>
+                    <td>{{ $teacher->updated_at->diffForHumans() }}</td>
+                    <td>
+                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            @endforeach
+
 
 
         </table>
+        {{ $teachers->links() }}
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        setTimeout(() => {
+            $('.alert').slideUp(1000);
+        }, 2000);
+    </script>
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+        @if (session('msg'))
+            Toast.fire({
+                icon: '{{ session('type') }}',
+                title: '{{ session('msg') }}'
+            })
+        @endif
+    </script>
 
 </body>
 
