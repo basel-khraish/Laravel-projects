@@ -22,9 +22,18 @@
             <a href="{{ route('teachers.create') }}" class="btn btn-success">Add Teacher</a>
         </div>
 
-        @if (session('msg'))
+        {{-- @if (session('msg'))
             <div class="alert alert-{{ session('type') }}">{{ session('msg') }}</div>
-        @endif
+        @endif --}}
+
+
+        <form action="{{ route('teachers.index') }}" method="get">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Search..."
+                     value="{{ request()->keyword }}" name="keyword">
+                <button class="btn btn-success" type="submit" id="button-addon2" >search</button>
+            </div>
+        </form>
 
         <table class="table table-bordered table-striped">
             <tr class="table-dark">
@@ -45,8 +54,17 @@
                     <td>{{ $teacher->created_at->format('d M,Y') }}</td>
                     <td>{{ $teacher->updated_at->diffForHumans() }}</td>
                     <td>
-                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                        <a href="{{ route('teachers.edit', $teacher->id) }}" class="btn btn-primary btn-sm"><i
+                                class="fas fa-edit"></i></a>
+                        {{-- <a href="{{ route('teachers.destroy',$teacher->id) }}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a> --}}
+
+                        <form onclick="return confirm('Are You Sure ?!')" class="d-inline"
+                            action="{{ route('teachers.destroy', $teacher->id) }}" method="POST">
+                            @csrf
+                            @method('Delete')
+                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        </form>
+
                     </td>
                 </tr>
             @endforeach
@@ -56,11 +74,13 @@
         </table>
         {{ $teachers->links() }}
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+        < /> <
+        script src = "https://code.jquery.com/jquery-3.6.0.min.js" >
+    </script>
     <script>
         setTimeout(() => {
-            $('.alert').slideUp(1000);
+            $('.alert').slideUp(700);
         }, 2000);
     </script>
     <script>
@@ -77,7 +97,7 @@
         })
         @if (session('msg'))
             Toast.fire({
-                icon: '{{ session('type') }}',
+                icon: 'success',
                 title: '{{ session('msg') }}'
             })
         @endif

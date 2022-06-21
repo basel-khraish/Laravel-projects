@@ -15,10 +15,14 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $teachers = Teacher::paginate(10);
-        // $teachers = Teacher::all();
-
-        return view('teacher.index',compact('teachers'));
+        if(request()->has('keyword'))
+        {
+            $teachers = Teacher::where('name','like','%'.request()->keyword.'%')->paginate(5);
+        }else
+        {
+            $teachers = Teacher::paginate(5);
+        }
+        return view('teacher.index', compact('teachers'));
     }
 
     /**
@@ -39,26 +43,26 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-    // validation
-        $request-> validate([
-            'name'=>'required',
-            'email'=>'required|unique:teachers,email',
-            'phone'=>'required|max:13',
+        // validation
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|unique:teachers,email',
+            'phone' => 'required|max:20',
         ]);
 
-    // upload file
+        // upload file
 
-    // store data
+        // store data
         Teacher::create([
             // [اسم العمود في قواعد البيانات]=>[ index اسم الحقل في ]
 
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'phone'=>$request->phone,
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone
         ]);
-        
-    // return message
-        return redirect()->route('teachers.index')->with('msg','Teacher added successfull')->with('type','success');
+
+        // return message
+        return redirect()->route('teachers.index')->with('msg', 'Teacher added successfull')->with('type', 'success');
     }
 
     /**
@@ -80,6 +84,8 @@ class TeacherController extends Controller
      */
     public function edit($id)
     {
+        $teacher = Teacher::findOrFail($id);
+        return view('teacher.edit', compact('teacher'));
     }
 
     /**
@@ -91,8 +97,23 @@ class TeacherController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'phone' => 'required|max:20',
+        ]);
+
+        $teacher = Teacher::findOrFail($id);
+        $teacher->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone
+        ]);
+
+        // return message
+        return redirect()->route('teachers.index')->with('msg', 'Teacher Edited successfull')->with('type', 'info');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -102,6 +123,17 @@ class TeacherController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Teacher::destroy($id);
+
+        // $item = Teacher::find($id);
+
+        // $image=$item->image;
+        // unlink($image);
+
+        // $item->delete();
+
+
+        // return message
+        return redirect()->route('teachers.index')->with('msg', 'Teacher Deleted successfull')->with('type', 'danger');
     }
 }
