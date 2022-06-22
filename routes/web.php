@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\crud\TeacherController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormsController;
+use App\Http\Controllers\site\SiteController;
 use App\Http\Controllers\site\Site1Controller;
 use App\Http\Controllers\site\Site2Controller;
-use App\Http\Controllers\site\SiteController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\crud\TeacherController;
+use App\Http\Controllers\relation\RelationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,3 +66,5 @@ Route::post('form4',[FormsController::class,'form4_submit'])->name('forms.form4_
 
 Route::resource('teachers',TeacherController::class);
 
+// Relation one to one
+Route::get('one-to-one',[RelationController::class,'one_to_one']);
