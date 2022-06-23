@@ -15,24 +15,19 @@
     <div class="container my-5">
         <h1 class="text-center">All Subject</h1>
         <div class="row">
-            <table class="table table-bordered table-hover table-striped">
-                <tr>
-                    <td><input type="checkbox" name="subject"></td>
-                    <td>Math</td>
-                    <td>3 Hours</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" name="subject"></td>
-                    <td>Math</td>
-                    <td>3 Hours</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" name="subject"></td>
-                    <td>Math</td>
-                    <td>3 Hours</td>
-                </tr>
-
-            </table>
+            <form action="{{ route('register_subject_submit') }}" method="post">
+                @csrf
+                <table class="table table-bordered table-hover table-striped">
+                    @foreach ($subjects as $subject)
+                        <tr>
+                            <td><input type="checkbox"  {{ $student->subjects->find($subject->id) ? 'checked':''}} name="subject[]" value="{{ $subject->id }}"></td>
+                            <td>{{ $subject->name }}</td>
+                            <td>{{ $subject->hours }} Hours</td>
+                        </tr>
+                    @endforeach
+                </table>
+                <button class="btn btn-success w-25">Register</button>
+            </form>
         </div>
     </div>
 </body>

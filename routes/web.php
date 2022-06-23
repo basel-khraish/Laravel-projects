@@ -7,6 +7,7 @@ use App\Http\Controllers\site\Site1Controller;
 use App\Http\Controllers\site\Site2Controller;
 use App\Http\Controllers\crud\TeacherController;
 use App\Http\Controllers\relation\RelationController;
+use App\Http\Controllers\RelationController as ControllersRelationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,3 +77,4 @@ Route::get('posts',[RelationController::class,'posts'])->name('posts.all');
 Route::get('posts/{id}',[RelationController::class,'posts_single'])->name('posts.single');
 
 Route::get('register-subject',[RelationController::class,'register_subject'])->name('register_subject');
+Route::post('register-subject',[RelationController::class,'register_subject_submit'])->name('register_subject_submit');
