@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Comment;
 use App\Models\Teacher;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,5 +21,8 @@ class DatabaseSeeder extends Seeder
 
         //delete data
         // Teacher::truncate();
+
+        Comment::factory(100)->create();
+
     }
 }
